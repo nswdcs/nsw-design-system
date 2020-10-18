@@ -1,6 +1,6 @@
 {
   "name": "nsw-design-system",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Design system for Digital NSW",
   "main": "dist/main.js",
   "style": "dist/main.css",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/digitalnsw/nsw-design-system.git"
+    "url": "https://github.com/nswdcs/nsw-design-system/tree/bugfix/main-navigation"
   },
   "bugs": {
     "url": "https://github.com/digitalnsw/nsw-design-system/issues"
