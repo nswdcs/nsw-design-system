@@ -11,6 +11,7 @@ class Navigation {
     this.mainNavElement = document.getElementById('main-navigation')
     this.isMegaMenuElement = !!document.querySelector('.js-mega-menu')
     this.transitionEvent = whichTransitionEvent()
+    this.isSafari = this.isSafariForDesktopBrowser()
     this.mobileToggleMainNavEvent = (e) => this.mobileToggleMainNav(e)
     this.mobileToggleSubnavEvent = () => this.closeSubnav()
     this.mobileShowMainTransitionEndEvent = (e) => this.mobileShowMainNav(e)
@@ -212,6 +213,9 @@ class Navigation {
   toggleSubnavDesktop() {
     const { link } = this.whichSubNavLatest()
     const isExpanded = link.getAttribute('aria-expanded') === 'true'
+    if (this.isSafari) {
+      this.closeSubnavSafari()
+    }
     if (isExpanded) {
       this.closeSubnav()
     } else {
@@ -236,6 +240,28 @@ class Navigation {
     const { submenu } = this.whichSubNavLatest()
     const elemObj = getFocusableElementBySelector(submenu.id, ['> div button', '> ul > li > a'])
     trapTabKey(e, elemObj)
+  }
+
+  closeSubnavSafari() {
+    if (this.openSubNavElements.length > 1) {
+      this.openSubNavElements.forEach((item, i) => {
+        if (i < this.openSubNavElements.length - 1) {
+          if (this.breakpoint.matches) {
+            item.link.setAttribute('aria-expanded', false)
+            item.link.classList.remove('is-open')
+            this.mainNavElement.removeEventListener('focus', this.checkFocusEvent, true)
+          }
+          item.submenu.classList.remove('is-open')
+          this.openSubNavElements.shift()
+        }
+      })
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  isSafariForDesktopBrowser() {
+    const ua = navigator.userAgent
+    return (ua.indexOf('Safari') !== -1) && (ua.indexOf('Chrome') === -1) && (window.safari !== undefined)
   }
 }
 
